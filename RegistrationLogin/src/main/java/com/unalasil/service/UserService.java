@@ -1,6 +1,10 @@
 package com.unalasil.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,5 +31,10 @@ public class UserService {
 	
 	public User fetchUserByEmail(String email) {
 		return userRepository.findByEmail(email);
+	}
+	
+	public Page<User> listStudents(Pageable pageable){
+		System.out.println(pageable);
+		return userRepository.findAll(pageable);
 	}
 }

@@ -1,6 +1,8 @@
 package com.unalasil.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,7 +17,7 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@PostMapping("/register")
+	@PostMapping("/admin/register")
 	public User registerUser(@RequestBody User user) throws Exception {
 		String tempEmail = user.getEmail();
 		
@@ -28,6 +30,10 @@ public class UserController {
 		User createdUser = userService.saveUser(user);
 		return createdUser;
 	}
-
 	
+	@GetMapping("/admin/register")
+	public Page<User> listUserss(Pageable pageable){
+		return userService.listStudents(pageable);
+	}
+
 }
