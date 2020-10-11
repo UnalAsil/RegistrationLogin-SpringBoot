@@ -1,6 +1,7 @@
 package com.unalasil.model;
 
 import java.util.Collection;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -23,7 +25,7 @@ public class User {
 	private String password;
 	private String email;
 	
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(
 			name = "user_roles",
 			joinColumns = @JoinColumn(
@@ -33,7 +35,7 @@ public class User {
 					name = "role_id", referencedColumnName = "id"
 					)
 			)
-	private Collection<Role> roles;
+	private Set<Role> roles;
 	
 	
 	public User(String name, String password, String email) {
@@ -74,5 +76,11 @@ public class User {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public Set<Role> getRoles() {
+		return roles;
+	}
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
 }
