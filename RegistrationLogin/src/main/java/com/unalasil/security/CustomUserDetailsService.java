@@ -1,6 +1,7 @@
 package com.unalasil.security;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.unalasil.model.CustomUserDetails;
 import com.unalasil.model.User;
 import com.unalasil.repository.UserRepository;
 
@@ -19,26 +21,20 @@ import com.unalasil.repository.UserRepository;
 @Transactional
 public class CustomUserDetailsService implements UserDetailsService {
 	
-	@Autowired
-	private UserRepository userRepository;
+	
+    @Autowired
+    private UserRepository userRepository;
 
-	@Override
-	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-		User user = userRepository.findByEmail(userName);
-			if(user!=null) {
-		        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), getAuthorities(user));
-			}
-			else {
-				throw new UsernameNotFoundException("Email "+userName+ " not found");
-			}
-   }
-		
-		
 
-	private static Collection<? extends GrantedAuthority> getAuthorities(User user) {
-	    String[] userRoles = user.getRoles().stream().map((role) -> role.getName()).toArray(String[]::new);
-	    Collection<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(userRoles);
-	    return authorities;
-	}
-
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<User> optionalUsers = userRepository.findByName(username);
+        
+        optionalUsers
+                .orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+        return optionalUsers
+                .map(CustomUserDetails::new).get();
+    }
+    
+	
 }

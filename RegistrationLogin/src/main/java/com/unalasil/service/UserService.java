@@ -29,11 +29,11 @@ public class UserService {
 		return createdUser;
 	}
 	
-	public User fetchUserByEmail(String email) {
+	public Optional<User> fetchUserByEmail(String email) {
 		return userRepository.findByEmail(email);
 	}
 	
-	public Page<User> listStudents(Pageable pageable){
+	public Page<User> listUsers(Pageable pageable){
 		System.out.println(pageable);
 		return userRepository.findAll(pageable);
 	}

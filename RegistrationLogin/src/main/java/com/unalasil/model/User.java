@@ -49,6 +49,13 @@ public class User {
 		// TODO Auto-generated constructor stub
 	}
 
+	public User(User user) {
+		this.name=user.name;
+		this.email=user.email;
+		this.id = user.id;
+		this.password = user.password;
+		this.roles = user.roles;
+	}
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", name=" + name + ", password=" + password + "]";

@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unalasil.model.User;
@@ -16,7 +17,7 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@GetMapping("/admin")
 	public String admin() {
 		return "<h2>Welcome Admin!</h2>";
@@ -28,11 +29,11 @@ public class UserController {
 		return "<h2>Welcome User!</h2>";
 	}
 	
-	@GetMapping("/all")
+	@GetMapping("/")
 	public String All() {
-
 		return "<h2>Welcome all!</h2>";
 	}
+	
 	
 	@PostMapping("/admin/register")
 	public User registerUser(@RequestBody User user) throws Exception {
@@ -43,14 +44,16 @@ public class UserController {
 				throw new Exception("User with " + tempEmail + " is already exist");
 			}
 		}
-		
+			
 		User createdUser = userService.saveUser(user);
 		return createdUser;
 	}
 	
 	@GetMapping("/admin/register")
 	public Page<User> listUserss(Pageable pageable){
-		return userService.listStudents(pageable);
+		return userService.listUsers(pageable);
 	}
+	
+	
 
 }
