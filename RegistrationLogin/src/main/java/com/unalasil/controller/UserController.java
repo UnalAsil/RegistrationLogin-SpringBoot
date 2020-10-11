@@ -17,6 +17,23 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	@GetMapping("/admin")
+	public String admin() {
+		return "<h2>Welcome Admin!</h2>";
+	}
+	
+	@GetMapping("/user")
+	public String user() {
+
+		return "<h2>Welcome User!</h2>";
+	}
+	
+	@GetMapping("/all")
+	public String All() {
+
+		return "<h2>Welcome all!</h2>";
+	}
+	
 	@PostMapping("/admin/register")
 	public User registerUser(@RequestBody User user) throws Exception {
 		String tempEmail = user.getEmail();

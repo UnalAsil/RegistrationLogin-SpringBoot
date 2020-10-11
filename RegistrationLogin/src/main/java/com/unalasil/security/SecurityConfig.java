@@ -19,10 +19,10 @@ import com.unalasil.service.UserService;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	
-	@Autowired
-	private UserDetailsService customUserDetailsService;
-	
+//	
+//	@Autowired
+//	private UserDetailsService customUserDetailsService;
+//	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {		
 		auth.inMemoryAuthentication()
@@ -33,29 +33,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception{
-//		  http.authorizeRequests()
-//          .antMatchers("/").hasAnyAuthority("USER", "ADMIN")
-//          .antMatchers("/admin/**").hasAuthority("ADMIN")
-//          .anyRequest().authenticated()
-//          .and()
-//          .formLogin().permitAll()
-//          .and()
-//          .logout().permitAll()
-//          .and()
-//          .exceptionHandling().accessDeniedPage("/403")
-//          ;
-		
-        http
-        	.httpBasic()
-	        .and()
-	        .authorizeRequests()
-	        .antMatchers("/admin/**").hasRole("admin")
-	        .antMatchers("/users/**").hasRole("user")
-	        .and()
-	        .csrf().disable()
-	        .formLogin().disable();
-	    }
-	
+
+		http.authorizeRequests()
+		.antMatchers("/admin").hasRole("admin")
+		.antMatchers("/user").hasAnyRole("user")
+		.antMatchers("/all").permitAll()
+        .anyRequest().authenticated()
+        .and().csrf().disable()
+		.formLogin();	
+	}
 	@Bean
 	public BCryptPasswordEncoder encodePWD() {
 		return new BCryptPasswordEncoder();
